@@ -7,14 +7,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 
 public class SplashActivity extends Activity {
+
+
+    RadioGroup rg;
+    RadioButton rb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        rg = (RadioGroup) findViewById(R.id.radioGroup);
 
         SplashRunnable splashRunnable = new SplashRunnable();
         Handler handler = new Handler();
@@ -48,6 +55,8 @@ public class SplashActivity extends Activity {
         @Override
         public void run(){
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
+            rb = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
+            i.putExtra("Keuze",rb.getText().toString());
             startActivity(i);
             finish();
         }

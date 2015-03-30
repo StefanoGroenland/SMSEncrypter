@@ -1,6 +1,8 @@
 package com.groenland.stefano.myapp;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -27,7 +29,7 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
     int value;
     CharSequence tekst;
     String Output;
-
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,9 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
         rc = (EditText) findViewById(R.id.editReceiver);
         sk = (SeekBar) findViewById(R.id.seekBar);
         receive = rc.getText();
-
+        Bundle extras = getIntent().getExtras();
+        String keuze = extras.getString("Keuze");
+        es.setText(keuze);
 
         sk.setOnSeekBarChangeListener(this);
     }
@@ -130,5 +134,25 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedSMS = prefs.getString("keySMS", "Lege waardes");
+        String storedReceiver = prefs.getString("keyReceiver", "Lege waardes");
+        es.setText(storedSMS);
+        rc.setText(storedReceiver);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor prefs =
+                PreferenceManager.getDefaultSharedPreferences(this).edit();
+        prefs.putString("keySMS",es.getText().toString());
+        prefs.putString("keyReceiver",rc.getText().toString());
+                prefs.commit();
     }
 }
