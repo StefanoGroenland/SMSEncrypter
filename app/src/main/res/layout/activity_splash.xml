@@ -30,6 +30,12 @@
             android:layout_height="wrap_content"
             android:text="Feyenoord"
             android:id="@+id/radioButton3" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.13" />
     </RadioGroup>
 
 </LinearLayout>

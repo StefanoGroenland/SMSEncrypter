@@ -22,6 +22,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSeekBarChangeListener{
 
     EditText es;
+    EditText em;
     TextView tv;
     EditText rc;
     SeekBar sk;
@@ -35,15 +36,17 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         es = (EditText) findViewById(R.id.editSMS);
+        em = (EditText) findViewById(R.id.editMirror);
         es.addTextChangedListener(this);
         tv = (TextView) findViewById(R.id.textEncryptedOutput);
         rc = (EditText) findViewById(R.id.editReceiver);
         sk = (SeekBar) findViewById(R.id.seekBar);
         receive = rc.getText();
         Bundle extras = getIntent().getExtras();
+        String text = extras.getString("Text");
+        em.setText(text);
         String keuze = extras.getString("Keuze");
         es.setText(keuze);
-
         sk.setOnSeekBarChangeListener(this);
     }
 
@@ -59,7 +62,13 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
         return result;
     }
 
-
+    private String mirrorSms(String str){
+        String result = new String();
+        for(int i = str.length() - 1; i >= 0; i--){
+            result = result + str.charAt(i);
+        }
+        return result;
+    }
 
     public void btnSend (View view){
         Output = encryptString(tekst.toString() , value);
@@ -73,6 +82,7 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
 
         EditText es = (EditText) findViewById(R.id.editSMS);
         es.setText(" ");
+        em.setText(" ");
     }
 
 
@@ -115,8 +125,8 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
         tekst = es.getText();
         Output = encryptString(tekst.toString() , value);
         tv.setText(Output);
-
-    }
+        em.setText(mirrorSms(Output));
+   }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -124,6 +134,7 @@ public class MainActivity extends Activity implements TextWatcher, SeekBar.OnSee
         tekst = es.getText();
         Output = encryptString(tekst.toString() , value);
         tv.setText(Output);
+
     }
 
     @Override

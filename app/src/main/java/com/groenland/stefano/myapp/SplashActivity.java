@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -16,7 +17,7 @@ public class SplashActivity extends Activity {
 
     RadioGroup rg;
     RadioButton rb;
-
+    EditText text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,7 @@ public class SplashActivity extends Activity {
 
         SplashRunnable splashRunnable = new SplashRunnable();
         Handler handler = new Handler();
-        handler.postDelayed(splashRunnable,3000);
+        handler.postDelayed(splashRunnable,10000);
     }
 
 
@@ -56,7 +57,9 @@ public class SplashActivity extends Activity {
         public void run(){
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
             rb = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
+            text = (EditText) findViewById(R.id.text);
             i.putExtra("Keuze",rb.getText().toString());
+            i.putExtra("Text" ,text.getText().toString());
             startActivity(i);
             finish();
         }
